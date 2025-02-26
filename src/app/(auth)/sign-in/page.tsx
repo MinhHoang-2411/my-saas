@@ -7,7 +7,10 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import ValidatedInput from '@/app/components/form-controls/ValidatedInput';
 import styles from '../styles.module.scss'
 import Link from 'next/link';
-
+import { useAppDispatch } from '@/lib/redux/hooks';
+import { loginSuccess } from '@/lib/redux/slices/authSlice';
+import api from '@/lib/utils/axiosInstance';
+import { useRouter } from 'next/navigation';
 
 const schema = yup.object({
   email: yup.string().email("Invalid email").required("Email is required"),
@@ -25,8 +28,19 @@ const SignUpPage = () => {
     resolver: yupResolver(schema),
   });
 
-  const onSubmit = (data: FormData) => {
+  const dispatch = useAppDispatch();
+  const router = useRouter()
+
+  const onSubmit = async (data: FormData) => {
     console.log("Form Data:", data);
+    const {email, password} = data;
+    try {
+      const res = await api.post("/auth/login", { email, password });
+      dispatch(loginSuccess(res.data));
+      router.push("/cart");
+    } catch {
+      alert("Login failed");
+    }
   };
 
   return (
