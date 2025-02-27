@@ -5,7 +5,7 @@
   --primary-color: #007bff;
   --primary-dark: #0056b3;
   --primary-light: #66b2ff;
-  
+
   /* Neutral Colors */
   --black: #000;
   --white: #fff;
@@ -18,7 +18,7 @@
   --gray-700: #495057;
   --gray-800: #343a40;
   --gray-900: #212529;
-  
+
   /* Status Colors */
   --red: #dc3545;
   --red-dark: #a71d2a;
@@ -27,7 +27,7 @@
   --yellow: #ffc107;
   --yellow-dark: #d39e00;
   --blue: #17a2b8;
-  
+
   /* Backgrounds */
   --bg-light: var(--gray-100);
   --bg-dark: var(--gray-900);
@@ -92,21 +92,21 @@ select:-webkit-autofill:focus {
   box-shadow: 0 0 0px 1000px var(--white) inset !important;
 }
 
-.rootLayoutContainer{
+.rootLayoutContainer {
   display: flex;
   flex-direction: column;
 }
 
-.header, .footer{
+.header,
+.footer {
   background: var(--gray-800);
   color: var(--white);
   padding: 20px 0;
 }
 
-.contentContainer{
+.contentContainer {
   flex: 1;
 }
-
 
 .container {
   width: 100%;
@@ -116,11 +116,38 @@ select:-webkit-autofill:focus {
   padding: 0 20px; /* Ensure spacing on both sides for smaller screens */
 }
 
-.authContainer{
+.authContainer {
   width: 100%;
   height: 100%;
-  background-image: url('/background/auth-background.png');
+  background-image: url("/background/auth-background.png");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
+}
+
+.grid {
+  display: grid;
+  gap: 15px;
+}
+
+.grid-flexible-columns {
+  grid-template-columns: repeat(4, 1fr);
+}
+
+@media (max-width: 1200px) {
+  .grid-flexible-columns {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 900px) {
+  .grid-flexible-columns {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 550px) {
+  .grid-flexible-columns {
+    grid-template-columns: repeat(1, 1fr);
+  }
 }

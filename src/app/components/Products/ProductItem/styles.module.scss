@@ -1,0 +1,16 @@
+.productItemContainer{
+    width: 100%;
+    border: 1px solid var(--gray-500);
+    border-radius: 8px;
+    padding: 24px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    .productImageContainer{
+        position: relative;
+        width: 100%;
+        height: 300px;
+        border-radius: 8px;
+        overflow: hidden;
+    }
+}

@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react'
+import React, { useEffect } from 'react'
 import * as yup from "yup";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -10,6 +10,9 @@ import ValidatedSelect from '@/app/components/form-controls/ValidatedSelect';
 import ValidatedUploadFile from '@/app/components/form-controls/ValidatedUploadFile';
 import styles from '../styles.module.scss'
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { useAppSelector } from '@/lib/redux/hooks';
+import { RootState } from '@/lib/redux/store';
 
 
 const schema = yup.object({
@@ -48,8 +51,15 @@ const SignUpPage = () => {
     console.log("Form Data:", data);
   };
 
+  const router = useRouter();
+  const token = useAppSelector((state: RootState) => state.auth.token);
+
+  useEffect(()=>{
+    if (token) router.push("/");
+  },[router, token])
+
   return (
-    <div className={styles.wrapper} >
+    token ? null : <div className={styles.wrapper} >
       <form onSubmit={handleSubmit(onSubmit)} className={styles.formContainer}>
         <h1 className={styles.title} >Sign Up</h1>
         <ValidatedInput label="First Name" name="firstName" register={register} error={errors.firstName} required />

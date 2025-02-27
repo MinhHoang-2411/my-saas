@@ -1,18 +1,20 @@
 "use client";
 
-import Link from 'next/link';
-import React from 'react'
-import styles from './styles.module.scss'
-import { ShoppingCart } from 'lucide-react';
+import React from "react";
+import styles from "./styles.module.scss";
+import CartLogo from "./CartLogo";
+import ClientOnly from "../ClientOnly";
+import HeaderAuthBtns from "./HeaderAuthBtns";
 
 function HeaderActionButtons() {
   return (
-    <div className={styles.actsBtnContainer} >
-        <Link href='/cart' ><ShoppingCart size={30}/></Link>
-        <Link href='/sign-in' ><button className={styles.signInBtn}>Sign In</button></Link>
-        <Link href='/sign-up' ><button className={styles.signUpBtn}>Sign Up</button></Link>
+    <div className={styles.actsBtnContainer}>
+      <ClientOnly>
+        <CartLogo />
+        <HeaderAuthBtns />
+      </ClientOnly>
     </div>
-  )
+  );
 }
 
-export default HeaderActionButtons
+export default HeaderActionButtons;

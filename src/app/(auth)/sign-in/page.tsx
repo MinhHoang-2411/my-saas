@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react'
+import React, { useEffect } from 'react'
 import * as yup from "yup";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -11,6 +11,8 @@ import { useAppDispatch } from '@/lib/redux/hooks';
 import { loginSuccess } from '@/lib/redux/slices/authSlice';
 import api from '@/lib/utils/axiosInstance';
 import { useRouter } from 'next/navigation';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/lib/redux/store';
 
 const schema = yup.object({
   email: yup.string().email("Invalid email").required("Email is required"),
@@ -19,7 +21,7 @@ const schema = yup.object({
 
 type FormData = yup.InferType<typeof schema>;
  
-const SignUpPage = () => {
+const SignInPage = () => {
   const {
     register,
     handleSubmit,
@@ -29,7 +31,9 @@ const SignUpPage = () => {
   });
 
   const dispatch = useAppDispatch();
-  const router = useRouter()
+  const router = useRouter();
+  const token = useSelector((state: RootState) => state.auth.token);
+
 
   const onSubmit = async (data: FormData) => {
     console.log("Form Data:", data);
@@ -43,8 +47,12 @@ const SignUpPage = () => {
     }
   };
 
+  useEffect(()=>{
+    if (token) router.push("/");
+  },[router, token])
+
   return (
-    <div className={styles.wrapper} >
+    token ? null : <div className={styles.wrapper} >
       <form onSubmit={handleSubmit(onSubmit)} className={styles.formContainer}>
         <h1 className={styles.title} >Sign In</h1>
         <ValidatedInput label="Email" name="email" type="email" register={register} error={errors.email} required />
@@ -57,4 +65,4 @@ const SignUpPage = () => {
   );
 }
  
-export default SignUpPage;
+export default SignInPage;
