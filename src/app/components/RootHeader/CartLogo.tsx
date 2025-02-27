@@ -1,13 +1,14 @@
 "use client";
 
 import React, { useState } from "react";
-import Link from "next/link";
 import { ShoppingCart } from "lucide-react";
 import { useCartStore } from "@/lib/zustand/store/cartStore";
 import styles from "./styles.module.scss";
 import { useClickOutside } from "@/app/hooks/useClickOutSide";
+import { useRouter } from "next/navigation";
 
 function CartLogo() {
+  const router = useRouter();
   const { cart } = useCartStore();
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useClickOutside<HTMLDivElement>(() => setIsOpen(false));
@@ -22,13 +23,19 @@ function CartLogo() {
         <div className={styles.cartPopup}>
           {totalQuantity > 0 ? (
             <>
-              <p>{`You have ${totalQuantity} items`}</p>
-              <button onClick={() => setIsOpen(false)}>
-                <Link href="/cart">Go to cart</Link>
+              <p className={styles.cartPopupTitle}>{`You have ${totalQuantity} items`}</p>
+              <button
+                className={styles.goToCartBtn}
+                onClick={() => {
+                  router.push("/cart");
+                  setIsOpen(false);
+                }}
+              >
+                Go to cart
               </button>
             </>
           ) : (
-            <p>Empty</p>
+            <p className={styles.cartPopupTitle}>Cart empty</p>
           )}
         </div>
       )}
